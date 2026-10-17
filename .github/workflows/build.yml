@@ -28,7 +28,11 @@ jobs:
         env:
           aws-region: ${{ secrets.REGION }}
       - name: Build Image
+        env:
+          BUILD: ${{ secrets.DOCKER_BUILD }}
+          TAG: ${{ secrets.DOCKER_TAG }}
+          PUSH: ${{ secrets.DOCKER_PUSH }}
         run:
-          docker build -t ${{ secrets.DOCKER_BUILD }}
-          docker tag ${{ secrets.DOCKER_TAG }}
-          docker push ${{ secrets.DOCKER_PUSH }}
+          docker build -t $BUILD
+          docker tag $TAG
+          docker push $PUSH
