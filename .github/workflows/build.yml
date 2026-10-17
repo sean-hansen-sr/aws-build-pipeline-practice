@@ -29,5 +29,6 @@ jobs:
           aws-region: ${{ secrets.REGION }}
       - name: Build Image
         run:
-          docker build -t seanware .
-          docker tag seanware:latest 455919269768.dkr.ecr.us-east-1.amazonaws.com/seanware:latest
+          docker build -t ${{ secrets.DOCKER_BUILD }}
+          docker tag ${{ secrets.DOCKER_TAG }}
+          docker push 455919269768.dkr.ecr.us-east-1.amazonaws.com/seanware:latest
