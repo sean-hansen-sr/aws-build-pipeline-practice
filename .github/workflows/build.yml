@@ -32,7 +32,7 @@ jobs:
           BUILD: ${{ secrets.DOCKER_BUILD }}
           TAG: ${{ secrets.DOCKER_TAG }}
           PUSH: ${{ secrets.DOCKER_PUSH }}
-        run:
+        run: |
           docker build -t $BUILD .
           docker tag $TAG
           docker push $PUSH
