@@ -1,0 +1,41 @@
+name: 'Build to AWS ECR'
+
+on: 
+  push:
+    branches:
+      - main
+  
+jobs:
+  login-to-AWS:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v7
+      - name: Login to AWS
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          aws-access-key-id: ${{ secrets.ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.REGION }}
+  build-and-push-ECR:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v7
+      - name: Login to AWS ECR
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ secrets.REGISTRY }}
+          username: ${{ secrets.ACCESS_KEY }}
+          password: ${{ secrets.SECRET_ACCESS_KEY }}
+        env:
+          aws-region: ${{ secrets.REGION }}
+      - name: Build Image
+        env:
+          BUILD: ${{ secrets.DOCKER_BUILD }}
+          TAG: ${{ secrets.DOCKER_TAG }}
+          PUSH: ${{ secrets.DOCKER_PUSH }}
+        run: |
+          docker build -t $BUILD .
+          docker tag $TAG
+          docker push $PUSH
