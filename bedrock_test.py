@@ -1,7 +1,7 @@
 import boto3
 import json
 
-def bedrock_text():
+def bedrock_test():
     bedrock_runtime = boto3.client('bedrock-runtime', region_name='us-east-1')
     model_id = "us.amazon.nova-lite-v1:0"
 
@@ -62,4 +62,4 @@ def bedrock_text():
         raise
 
 if __name__ == "__main__":
-    bedrock_text()
+    bedrock_test()
